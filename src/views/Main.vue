@@ -15,6 +15,7 @@
 
     <div class="status">
       <p>📡 status: {{ status }}</p>
+
       <p v-if="remoteUsername">👤 Собеседник: 👤 {{ remoteUsername }}</p>
       <p v-if="errorMessage" class="error">⚠️ Ошибка: {{ errorMessage }}</p>
     </div>
