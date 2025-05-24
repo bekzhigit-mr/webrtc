@@ -1,31 +1,40 @@
 <template>
-  <div class="video-call-app">
-    <h2 class="title">WebRTC Видеозвонок</h2>
+  <div class="video-call-app flex justify-between">
 
-    <div class="video-container">
-      <video ref="localVideo" autoplay playsinline></video>
-      <video ref="remoteVideo" autoplay playsinline></video>
+    <div>
+      <h2 class="title">WebRTC Видеозвонок</h2>
+
+      <div class="video-container">
+        <video ref="localVideo" autoplay playsinline></video>
+        <video ref="remoteVideo" autoplay playsinline></video>
+      </div>
+
+      <div class="controls">
+        <input v-model="username" placeholder="Введите ваше имя" />
+        <button @click="startCall" :disabled="isCalling || loading || !username">📞 Начать звонок</button>
+        <button @click="stopCall" :disabled="!isCalling">❌ Завершить звонок</button>
+      </div>
+
+      <div class="status">
+        <p>📡 status: {{ status }}</p>
+        <p v-if="remoteUsername">👤 Собеседник: 👤 {{ remoteUsername }}</p>
+        <p v-if="errorMessage" class="error">⚠️ Ошибка: {{ errorMessage }}</p>
+      </div>
+    </div>
+    <div>
+      <Messages></Messages>
     </div>
 
-    <div class="controls">
-      <input v-model="username" placeholder="Введите ваше имя" />
-      <button @click="startCall" :disabled="isCalling || loading || !username">📞 Начать звонок</button>
-      <button @click="stopCall" :disabled="!isCalling">❌ Завершить звонок</button>
-    </div>
-
-    <div class="status">
-      <p>📡 status: {{ status }}</p>
-      <p v-if="remoteUsername">👤 Собеседник: 👤 {{ remoteUsername }}</p>
-      <p v-if="errorMessage" class="error">⚠️ Ошибка: {{ errorMessage }}</p>
-    </div>
   </div>
 </template>
 
 <script>
 import { io } from "socket.io-client";
 import socket from '@/services/socket';
+import Messages from "@/pages/Messages.vue";
 
 export default {
+  components: {Messages},
   data() {
     return {
       username: '',

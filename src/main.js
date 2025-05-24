@@ -4,6 +4,8 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import router from "./router";
 import { io } from 'socket.io-client';
+import "tailwindcss";
+
 
 const socket = io('http://localhost:3000'); // Убедись, что URL совпадает
 
